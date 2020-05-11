@@ -22,25 +22,29 @@ namespace Module3_2
         public bool TryParseNaturalNumber(string input, out int result)
         {
             var parse = Int32.TryParse(input, out result);
-            if (!parse || result < 0)
-            {
-                Console.WriteLine("Invalid input");
-                Console.ReadKey();
-                return false;
-            }
 
-            return true;
+            if (parse && result >= 0)
+                return true;
+            else
+                return false;
         }
 
         public int[] GetFibonacciSequence(int n)
         {
-            var output = new List<int> {0,1};
-            while (output.Count != n)
+            var output = new int[n];
+
+            if (output.Count() >= 2)
             {
-                output.Add(output.TakeLast(2).Sum());
+                output[0] = 0;
+                output[1] = 1;
             }
 
-            return output.ToArray();
+            for (int i = 2; i < n; i++)
+            {
+                output[i] = output[i - 1] + output[i - 2];
+            }
+
+            return output;
         }
     }
 
@@ -48,7 +52,16 @@ namespace Module3_2
     {
         public int ReverseNumber(int sourceNumber)
         {
-            return Convert.ToInt32(sourceNumber.ToString().Reverse());
+            if (sourceNumber >= 0)
+            {
+                var output = new String(sourceNumber.ToString().Reverse().ToArray());
+                return Convert.ToInt32(output);
+            }
+            else
+            {
+                var output = new String((-sourceNumber).ToString().Reverse().ToArray());
+                return Convert.ToInt32("-" + output);
+            }
         }
     }
 
@@ -89,7 +102,7 @@ namespace Module3_2
         public int[] GenerateArray(int size)
         {
             if (size <= 0)
-                return new int[] {};
+                return new int[0];
             
             var output = new List<int>();
             for (int i = 0; i < size; i++)
